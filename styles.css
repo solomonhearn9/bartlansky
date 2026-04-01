@@ -1033,10 +1033,6 @@ img {
     font-size: 1.0625rem;
     letter-spacing: 0.055em;
   }
-
-  #bio .bio-aside-email {
-    font-size: 1.125rem;
-  }
 }
 
 @media (min-width: 640px) {
@@ -1075,26 +1071,6 @@ img {
     display: table;
     clear: both;
   }
-}
-
-.credentials-card-email {
-  padding: 1rem 1.35rem;
-}
-
-.bio-aside-email {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.bio-aside-email a {
-  color: var(--color-blue);
-  text-decoration: none;
-  border-bottom: 2px solid var(--color-green);
-}
-
-.bio-aside-email a:hover {
-  color: var(--color-green-dark);
 }
 
 .bio-aside {
