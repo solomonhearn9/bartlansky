@@ -857,13 +857,41 @@ img {
     margin-top: 1.5rem;
   }
 
-  .practice-split > .bullet-list.cols-2 {
+  /* Four columns, two rows, fill down each column first (7 items → 2+2+2+1) */
+  .practice-split > .bullet-list.cols-4-pairs {
     width: 100%;
-    max-width: min(100%, 44rem);
+    max-width: 100%;
     margin-inline: auto;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 2rem;
-    row-gap: 0.55rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(2, auto);
+    grid-auto-flow: column;
+    align-items: start;
+    column-gap: clamp(1.25rem, 2.5vw, 2rem);
+    row-gap: 0.22rem;
+  }
+
+  /* Multicol: each band stacks top-to-bottom; items are not locked to shared rows across columns */
+  .practice-split > .bullet-list.cols-4 {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin-inline: auto;
+    column-count: 3;
+    column-gap: clamp(1.25rem, 2.5vw, 2rem);
+  }
+
+  .practice-split > .bullet-list.cols-4-pairs li {
+    line-height: 1.45;
+  }
+
+  .practice-split > .bullet-list.cols-4 li {
+    line-height: 1.38;
+    break-inside: avoid;
+    margin-bottom: 0.2rem;
+  }
+
+  .practice-split > .bullet-list.cols-4 li:last-child {
+    margin-bottom: 0;
   }
 
   .practice-split__body .prose {
@@ -935,6 +963,32 @@ img {
   background: var(--color-green);
 }
 
+@media (max-width: 767px) {
+  .practice-split > .bullet-list.cols-4-pairs {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-auto-flow: row;
+    max-width: 100%;
+    row-gap: 0.4rem;
+    column-gap: 0;
+  }
+
+  .practice-split > .bullet-list.cols-4 {
+    display: block;
+    column-count: 1;
+    column-gap: 0;
+    max-width: 100%;
+  }
+
+  .practice-split > .bullet-list.cols-4 li {
+    margin-bottom: 0.4rem;
+  }
+
+  .practice-split > .bullet-list.cols-4 li:last-child {
+    margin-bottom: 0;
+  }
+}
+
 @media (max-width: 768px) {
   .practice-title,
   .about-block-heading {
@@ -973,13 +1027,6 @@ img {
   .credentials-card .plain-list {
     font-size: 1.05rem;
     line-height: 1.62;
-  }
-}
-
-@media (min-width: 640px) {
-  .bullet-list.cols-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    width: 100%;
   }
 }
 
