@@ -827,6 +827,8 @@ img {
     width: min(42%, 440px);
     max-width: 440px;
     margin: 0.2rem 1.75rem 0.85rem 0;
+    shape-outside: inset(0 round var(--radius));
+    -webkit-shape-outside: inset(0 round var(--radius));
   }
 
   .practice-split--reverse .practice-split__figure {
@@ -834,6 +836,17 @@ img {
     width: min(42%, 440px);
     max-width: 440px;
     margin: 0.2rem 0 0.85rem 1.75rem;
+    shape-outside: inset(0 round var(--radius));
+    -webkit-shape-outside: inset(0 round var(--radius));
+  }
+
+  /* Second+ paragraphs start below the float so lines don’t jump from “beside image” to full width mid-block */
+  .practice-split:not(.practice-split--reverse) .practice-split__body .prose p + p {
+    clear: left;
+  }
+
+  .practice-split--reverse .practice-split__body .prose p + p {
+    clear: right;
   }
 
   .practice-split > .bullet-list {
