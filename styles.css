@@ -840,15 +840,6 @@ img {
     -webkit-shape-outside: inset(0 round var(--radius));
   }
 
-  /* Second+ paragraphs start below the float so lines don’t jump from “beside image” to full width mid-block */
-  .practice-split:not(.practice-split--reverse) .practice-split__body .prose p + p {
-    clear: left;
-  }
-
-  .practice-split--reverse .practice-split__body .prose p + p {
-    clear: right;
-  }
-
   .practice-split > .bullet-list {
     clear: both;
     width: 100%;
