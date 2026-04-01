@@ -18,6 +18,8 @@
     });
   }
 
+  var AUTOPLAY_MS = 3000;
+
   document.querySelectorAll("[data-carousel]").forEach(function (root) {
     var track = root.querySelector("[data-carousel-track]");
     var slides = root.querySelectorAll("[data-carousel-slide]");
@@ -30,6 +32,7 @@
     var n = slides.length;
     var index = 0;
     var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var autoplayId = null;
 
     if (reducedMotion) {
       track.style.transition = "none";
@@ -59,6 +62,35 @@
       }
     }
 
+    function stopAutoplay() {
+      if (autoplayId !== null) {
+        clearInterval(autoplayId);
+        autoplayId = null;
+      }
+    }
+
+    function shouldSkipAutoplayTick() {
+      if (document.hidden) return true;
+      if (typeof root.matches === "function" && root.matches(":hover")) return true;
+      var ae = document.activeElement;
+      if (ae && root.contains(ae)) return true;
+      return false;
+    }
+
+    function startAutoplay() {
+      stopAutoplay();
+      if (reducedMotion) return;
+      autoplayId = setInterval(function () {
+        if (shouldSkipAutoplayTick()) return;
+        go(index + 1);
+      }, AUTOPLAY_MS);
+    }
+
+    function onUserNavigate(to) {
+      go(to);
+      startAutoplay();
+    }
+
     if (dotsRoot) {
       dotsRoot.innerHTML = "";
       for (var d = 0; d < n; d++) {
@@ -67,7 +99,7 @@
           b.type = "button";
           b.setAttribute("aria-label", "Go to slide " + (i + 1));
           b.addEventListener("click", function () {
-            go(i);
+            onUserNavigate(i);
           });
           dotsRoot.appendChild(b);
         })(d);
@@ -75,22 +107,23 @@
     }
 
     prevBtn.addEventListener("click", function () {
-      go(index - 1);
+      onUserNavigate(index - 1);
     });
     nextBtn.addEventListener("click", function () {
-      go(index + 1);
+      onUserNavigate(index + 1);
     });
 
     root.addEventListener("keydown", function (e) {
       if (e.key === "ArrowLeft") {
         e.preventDefault();
-        go(index - 1);
+        onUserNavigate(index - 1);
       } else if (e.key === "ArrowRight") {
         e.preventDefault();
-        go(index + 1);
+        onUserNavigate(index + 1);
       }
     });
 
     go(0);
+    startAutoplay();
   });
 })();
