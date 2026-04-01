@@ -338,10 +338,52 @@ img {
   }
 }
 
-/* Home — carousel + blurb */
+/* Home — intro, carousel + blurb */
 .home {
-  padding-top: 0.5rem;
+  padding-top: 0;
   padding-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+
+.home-intro {
+  padding: 1rem 0 1.25rem;
+}
+
+.home-intro__welcome {
+  margin: 0 0 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+.home-intro__title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(1.2rem, 2.2vw, 1.75rem);
+  line-height: 1.28;
+  color: var(--color-ink);
+  letter-spacing: -0.02em;
+  max-width: 38ch;
+  text-wrap: balance;
+}
+
+@media (min-width: 821px) {
+  .home-intro {
+    padding: 1.5rem 0 1.65rem;
+  }
+
+  .home-intro__welcome {
+    font-size: 0.78rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .home-intro__title {
+    font-size: clamp(1.45rem, 2.35vw, 1.95rem);
+    max-width: 44ch;
+    line-height: 1.22;
+  }
 }
 
 .home-blurb {
@@ -588,8 +630,70 @@ img {
 }
 
 @media (min-width: 768px) {
-  .about-split {
+  .about-split:not(.about-split--dual-float) {
     grid-template-columns: minmax(240px, 0.95fr) 1.1fr;
+  }
+
+  /* One section: firm image floats left, contact image floats right beside “What we believe”; figures share width */
+  .about-split--dual-float {
+    display: block;
+  }
+
+  .about-split--dual-float::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .about-split--dual-float .about-split__figure--float-start,
+  .about-split--dual-float .about-split__figure--float-end {
+    width: min(38%, 400px);
+    max-width: 400px;
+  }
+
+  .about-split--dual-float .about-split__figure--float-start {
+    float: left;
+    margin: 0.35rem 1.75rem 1rem 0;
+  }
+
+  .about-split--dual-float .about-split__figure--float-end {
+    float: right;
+    clear: left;
+    margin: 0.25rem 0 1rem 1.75rem;
+  }
+
+  /* Floated fig2 takes no flow height — without this, the next chunk slides up beside fig1 */
+  .about-split--dual-float .about-split__figure--float-end + .about-split__chunk {
+    clear: left;
+  }
+
+  .about-split--dual-float .about-contact-panel {
+    clear: both;
+    margin-top: 2rem;
+  }
+
+  .about-split--dual-float .about-split__chunk.prose {
+    font-size: 1.3125rem;
+    line-height: 1.72;
+  }
+
+  .about-split--dual-float .about-split__chunk .about-block-heading {
+    font-size: 1.0625rem;
+    letter-spacing: 0.055em;
+  }
+
+  .about-split--dual-float .about-contact-panel.prose {
+    font-size: 1.3125rem;
+    line-height: 1.72;
+  }
+
+  .about-split--dual-float .about-contact-panel .about-block-heading {
+    font-size: 1.0625rem;
+    letter-spacing: 0.055em;
+  }
+
+  .about-split--dual-float .about-contact-email {
+    font-size: 1.2rem;
   }
 }
 
@@ -606,7 +710,8 @@ img {
   border: 1px solid var(--color-border);
 }
 
-.about-split__content {
+.about-split__content,
+.about-split__chunk {
   min-width: 0;
 }
 
@@ -620,18 +725,43 @@ img {
   color: var(--color-blue);
 }
 
-.about-split__content .about-block-heading {
+.about-split__content .about-block-heading,
+.about-split__chunk .about-block-heading {
   font-size: 0.98rem;
   letter-spacing: 0.07em;
 }
 
-.about-split__content.prose {
+.about-split__content.prose,
+.about-split__chunk.prose {
   font-size: 1.125rem;
   line-height: 1.68;
 }
 
-.about-split__content .about-block-heading:not(:first-child) {
+.about-split__content .about-block-heading:not(:first-child),
+.about-split__chunk .about-block-heading:not(:first-child) {
   margin-top: 1.75rem;
+}
+
+.about-split--dual-float .about-split__chunk + .about-split__figure {
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 767px) {
+  .about-split--dual-float .about-split__figure--float-start,
+  .about-split--dual-float .about-split__figure--float-end {
+    float: none;
+    width: 100%;
+    max-width: none;
+    margin: 0 0 1.25rem;
+  }
+
+  .about-split--dual-float .about-split__chunk + .about-split__figure {
+    margin-top: 0;
+  }
+
+  .about-split--dual-float .about-contact-panel {
+    margin-top: 1.5rem;
+  }
 }
 
 .about-contact-panel {
@@ -681,16 +811,56 @@ img {
 }
 
 @media (min-width: 768px) {
+  /* Float image so title + prose wrap; bullet list clears below */
   .practice-split {
-    grid-template-columns: minmax(220px, 1fr) 1.15fr;
+    display: block;
+  }
+
+  .practice-split::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .practice-split:not(.practice-split--reverse) .practice-split__figure {
+    float: left;
+    width: min(42%, 440px);
+    max-width: 440px;
+    margin: 0.2rem 1.75rem 0.85rem 0;
   }
 
   .practice-split--reverse .practice-split__figure {
-    order: 2;
+    float: right;
+    width: min(42%, 440px);
+    max-width: 440px;
+    margin: 0.2rem 0 0.85rem 1.75rem;
   }
 
-  .practice-split--reverse .practice-split__body {
-    order: 1;
+  .practice-split > .bullet-list {
+    clear: both;
+    width: 100%;
+    margin-top: 1.5rem;
+  }
+
+  .practice-split > .bullet-list.cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(2rem, 5vw, 3.5rem);
+    row-gap: 0.55rem;
+  }
+
+  .practice-split__body .prose {
+    font-size: 1.3125rem;
+    line-height: 1.72;
+  }
+
+  .practice-split .practice-title {
+    font-size: 1.0625rem;
+    letter-spacing: 0.055em;
+  }
+
+  .practice-split .bullet-list li {
+    font-size: 1.125rem;
+    line-height: 1.62;
   }
 }
 
@@ -755,12 +925,14 @@ img {
     line-height: 1.35;
   }
 
-  .about-split__content .about-block-heading {
+  .about-split__content .about-block-heading,
+  .about-split__chunk .about-block-heading {
     font-size: clamp(1.1rem, 4.6vw, 1.32rem);
   }
 
   .practice-split__body .prose,
   .about-split__content.prose,
+  .about-split__chunk.prose,
   .bio-prose,
   .contact-section .prose {
     font-size: 1.125rem;
@@ -788,7 +960,8 @@ img {
 
 @media (min-width: 640px) {
   .bullet-list.cols-2 {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
   }
 }
 
@@ -839,6 +1012,27 @@ img {
 
 .bio-prose {
   min-width: 0;
+}
+
+@media (min-width: 768px) {
+  #bio .bio-prose {
+    font-size: 1.3125rem;
+    line-height: 1.72;
+  }
+
+  #bio .credentials-card .plain-list {
+    font-size: 1.125rem;
+    line-height: 1.65;
+  }
+
+  #bio .credentials-card .subsection-title.credentials-label {
+    font-size: 1.0625rem;
+    letter-spacing: 0.055em;
+  }
+
+  #bio .bio-aside-email {
+    font-size: 1.125rem;
+  }
 }
 
 @media (min-width: 640px) {
