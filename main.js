@@ -126,4 +126,28 @@
     go(0);
     startAutoplay();
   });
+
+  var contactForm = document.getElementById("contact-form");
+  var contactNext = document.getElementById("contact-form-next");
+  if (contactForm && contactNext) {
+    contactForm.addEventListener("submit", function () {
+      if (window.location.protocol === "http:" || window.location.protocol === "https:") {
+        contactNext.value =
+          window.location.origin + window.location.pathname + "?thanks=1";
+      }
+    });
+  }
+
+  if (window.location.search.indexOf("thanks=1") !== -1) {
+    var thanksEl = document.getElementById("contact-thanks");
+    if (thanksEl) {
+      thanksEl.hidden = false;
+      var reduceMotion =
+        window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      thanksEl.scrollIntoView({
+        behavior: reduceMotion ? "auto" : "smooth",
+        block: "nearest",
+      });
+    }
+  }
 })();
